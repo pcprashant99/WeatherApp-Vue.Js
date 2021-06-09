@@ -6,6 +6,9 @@
     <div v-else class="weather" :class="{ day: isDay, night: isNight }">
       <div class="weather-wrap">
         <CurrentWeather :isDay="isDay" :isNight="isNight" :currentWeather="currentWeather" />
+        <HourlyWeather :forecast="forecast" />
+        <WeeklyForecast :forecast="forecast" />
+        <AdditionalInfo :currentWeather="currentWeather" />
       </div>
     </div>
   </div>
@@ -15,11 +18,17 @@
 import axios from "axios";
 import db from "../firebase/firebaseinit";
 import CurrentWeather from "../components/CurrentWeather";
+import HourlyWeather from "../components/HourlyWeather";
+import WeeklyForecast from "../components/WeeklyForecast";
+import AdditionalInfo from "../components/AdditionalInfo";
 export default {
   name: "Weather",
   props: ["APIkey", "isDay", "isNight"],
   components: {
     CurrentWeather,
+    HourlyWeather,
+    WeeklyForecast,
+    AdditionalInfo,
   },
   data() {
     return {
@@ -75,34 +84,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.loading {
-  @keyframes spin {
-    to {
-      transform: rotateZ(360deg);
-    }
-  }
-  display: flex;
-  height: 100%;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  span {
-    display: block;
-    width: 60px;
-    height: 60px;
-    margin: 0 auto;
-    border: 2px solid transparent;
-    border-top-color: #142a5f;
-    border-radius: 50%;
-    animation: spin ease 1000ms infinite;
-  }
-}
 .weather {
   transition: 500ms ease;
   overflow: scroll;
   width: 100%;
   height: 100%;
-
   .weather-wrap {
     overflow: hidden;
     max-width: 1024px;
